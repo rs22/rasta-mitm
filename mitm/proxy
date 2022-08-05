@@ -1,0 +1,10 @@
+#! /bin/sh -e
+
+apk add --no-cache socat
+
+socat udp-l:9998,fork,reuseaddr udp:10.151.2.10:9998 &
+IXL_PID=$!
+socat udp-l:8888,fork,reuseaddr udp:10.151.2.20:8888 &
+LS_PID=$!
+
+wait $IXL_PID $LS_PID
